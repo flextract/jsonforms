@@ -5,7 +5,6 @@ import {
   mapDispatchToControlProps,
   mapStateToControlProps,
   mapStateToLayoutProps,
-  JsonFormsSubStates,
   JsonSchema,
   UISchemaElement,
   CoreActions,
@@ -38,6 +37,7 @@ import {
   Categorization,
   isControl,
   Scopable,
+  Resolve,
 } from '@jsonforms/core';
 import {
   PropType,
@@ -49,6 +49,22 @@ import {
   ref,
   watch,
 } from 'vue';
+import { JsonFormsSubStatesWithSuggestions } from './types';
+
+/**
+ * Resolves a suggestion value from the suggestions object for a given path
+ */
+const resolveSuggestion = (suggestions: any, path: string): any => {
+  if (!suggestions || !path) {
+    return undefined;
+  }
+
+  try {
+    return Resolve.data(suggestions, path);
+  } catch (e) {
+    return undefined;
+  }
+};
 
 /**
  * Constructs a props declaration for Vue components which can be used
@@ -177,7 +193,7 @@ export function useControl<
   stateMap: (state: JsonFormsState, props: P) => R,
   dispatchMap?: (dispatch: Dispatch<CoreActions>) => D
 ) {
-  const jsonforms = inject<JsonFormsSubStates>('jsonforms');
+  const jsonforms = inject<JsonFormsSubStatesWithSuggestions>('jsonforms');
   const dispatch = inject<Dispatch<CoreActions>>('dispatch');
 
   if (!jsonforms || !dispatch) {
@@ -187,11 +203,19 @@ export function useControl<
   }
 
   const id = ref<string | undefined>(undefined);
-  const control = computed(() => ({
-    ...props,
-    ...stateMap({ jsonforms }, props),
-    id: id.value,
-  }));
+  const control = computed(() => {
+    const mappedState = stateMap({ jsonforms }, props);
+    const path = (mappedState as any).path || '';
+    const suggestion = resolveSuggestion(jsonforms.suggestions, path);
+
+    return {
+      ...props,
+      ...mappedState,
+      id: id.value,
+      suggestion,
+      hasSuggestion: suggestion !== undefined,
+    };
+  });
 
   const dispatchMethods = dispatchMap?.(dispatch);
 
@@ -404,7 +428,7 @@ export const useJsonFormsMasterListItem = (props: OwnPropsOfMasterListItem) => {
  * Access bindings via the provided reactive 'renderer' object.
  */
 export const useJsonFormsRenderer = (props: RendererProps) => {
-  const jsonforms = inject<JsonFormsSubStates>('jsonforms');
+  const jsonforms = inject<JsonFormsSubStatesWithSuggestions>('jsonforms');
   const dispatch = inject<Dispatch<CoreActions>>('dispatch');
 
   if (!jsonforms || !dispatch) {

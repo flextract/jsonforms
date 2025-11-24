@@ -4,6 +4,12 @@
     :styles="styles"
     :is-focused="isFocused"
     :applied-options="appliedOptions"
+    :suggestion="suggestion"
+    :has-suggestion="hasSuggestion"
+    :show-suggestion="showSuggestion"
+    :suggestion-state="suggestionState"
+    :on-accept-suggestion="onAcceptSuggestion"
+    :on-reject-suggestion="onRejectSuggestion"
   >
     <input
       :id="control.id + '-input'"

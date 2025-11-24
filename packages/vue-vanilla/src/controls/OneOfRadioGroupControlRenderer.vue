@@ -4,6 +4,12 @@
     :styles="styles"
     :is-focused="isFocused"
     :applied-options="appliedOptions"
+    :suggestion="suggestion"
+    :has-suggestion="hasSuggestion"
+    :show-suggestion="showSuggestion"
+    :suggestion-state="suggestionState"
+    :on-accept-suggestion="onAcceptSuggestion"
+    :on-reject-suggestion="onRejectSuggestion"
   >
     <fieldset :class="styles.control.radio?.root">
       <legend v-if="control.label" :class="styles.control.radio?.legend">

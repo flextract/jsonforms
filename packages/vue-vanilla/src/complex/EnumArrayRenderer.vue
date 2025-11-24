@@ -1,15 +1,9 @@
 <template>
   <div v-for="(checkElement, index) in control.options" :key="index">
-    <input
-      :id="control.id + `-input-${index}`"
-      type="checkbox"
-      :class="styles.control.input"
-      :value="checkElement.value"
-      :checked="dataHasEnum(checkElement.value)"
-      :disabled="!control.enabled"
+    <input :id="control.id + `-input-${index}`" type="checkbox" :class="styles.control.input"
+      :value="checkElement.value" :checked="dataHasEnum(checkElement.value)" :disabled="!control.enabled"
       :placeholder="appliedOptions?.placeholder"
-      @change="(event) => toggle(checkElement.value, event.target.checked)"
-    />
+      @change="(event) => toggle(checkElement.value, event.target?.checked)" />
     <label :for="control.id + `-input-${index}`">
       {{ checkElement.label }}
     </label>

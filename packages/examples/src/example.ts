@@ -42,6 +42,7 @@ export interface ExampleDescription {
   actions?: { label: string; apply: (props: StateProps) => any }[];
   i18n?: JsonFormsI18nState;
   readonly?: boolean;
+  suggestions?: any;
 }
 
 export interface StateProps {

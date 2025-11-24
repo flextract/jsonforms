@@ -3,16 +3,11 @@ import { defineComponent } from 'vue';
 import { JsonForms, JsonFormsChangeEvent } from '../../config/jsonforms';
 import { vanillaRenderers, mergeStyles, defaultStyles } from '../../src';
 import '../../vanilla.css';
-import { ErrorObject } from 'ajv';
-import { getExamples } from '../../../examples';
-import get from 'lodash/get';
 
 // mergeStyles combines all classes from both styles definitions into one
 const myStyles = mergeStyles(defaultStyles, {
   control: { root: 'my-control' },
 });
-
-const examples = getExamples();
 
 export default defineComponent({
   name: 'App',
@@ -24,57 +19,117 @@ export default defineComponent({
       styles: myStyles,
     };
   },
-  data: function () {
-    const additionalErrors: ErrorObject[] = [];
+  data() {
     return {
-      data: {},
       renderers: Object.freeze(vanillaRenderers),
-      currentExampleName: examples[0].name,
-      examples,
-      i18n: examples[0].i18n,
-      additionalErrors,
+      schema: {
+        type: 'object',
+        properties: {
+          name: {
+            type: 'string',
+            description: 'Full name',
+          },
+          age: {
+            type: 'integer',
+            description: 'Age',
+          },
+          email: {
+            type: 'string',
+            format: 'email',
+            description: 'Email address',
+          },
+          subscribed: {
+            type: 'boolean',
+            description: 'Newsletter subscription',
+          },
+          country: {
+            type: 'string',
+            enum: ['US', 'UK', 'CA', 'AU'],
+            description: 'Country',
+          },
+          users: {
+            type: 'array',
+            description: 'Team members',
+            items: {
+              type: 'object',
+              properties: {
+                name: {
+                  type: 'string',
+                  description: 'Member name',
+                },
+                email: {
+                  type: 'string',
+                  format: 'email',
+                  description: 'Member email',
+                },
+                role: {
+                  type: 'string',
+                  enum: ['developer', 'designer', 'manager'],
+                  description: 'Member role',
+                },
+              },
+            },
+          },
+        },
+      },
+      uischema: {
+        type: 'VerticalLayout',
+        elements: [
+          {
+            type: 'Control',
+            scope: '#/properties/name',
+          },
+          {
+            type: 'Control',
+            scope: '#/properties/age',
+          },
+          {
+            type: 'Control',
+            scope: '#/properties/email',
+          },
+          {
+            type: 'Control',
+            scope: '#/properties/subscribed',
+          },
+          {
+            type: 'Control',
+            scope: '#/properties/country',
+          },
+          {
+            type: 'Control',
+            scope: '#/properties/users',
+          },
+        ],
+      },
+      data: {
+        name: 'Alice Johnson',
+        age: 25,
+        email: 'alice@example.com',
+        subscribed: false,
+        country: 'US',
+        users: [
+          { name: 'Bob Smith', email: 'bob@example.com', role: 'developer' },
+          { name: 'Carol White', email: 'carol@example.com', role: 'designer' },
+        ],
+      },
+      suggestions: {
+        name: 'Jane Doe',
+        age: 30,
+        email: 'jane.doe@company.com',
+        subscribed: true,
+        country: 'UK',
+        users: [
+          { name: 'John Doe', email: 'john@company.com', role: 'manager' },
+          { name: 'Sarah Williams', email: 'sarah@company.com', role: 'developer' },
+          { name: 'Mike Chen', email: 'mike@company.com', role: 'designer' },
+        ],
+      },
     };
-  },
-  computed: {
-    example() {
-      const name = (this as any).currentExampleName;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return examples.find((ex) => ex.name === name)!;
-    },
-  },
-  beforeMount() {
-    const searchURL = new URL(String(window.location));
-    const name = searchURL.hash?.substring(1);
-    const exists = name && examples.find((ex) => ex.name === name);
-    if (name && exists) {
-      this.currentExampleName = name;
-    }
   },
   methods: {
     onChange(event: JsonFormsChangeEvent) {
-      console.log(event);
+      console.log('Data changed:', event);
       this.data = event.data;
-
-      const searchURL = new URL(String(window.location));
-      searchURL.hash = this.currentExampleName;
-      window.history.pushState({}, '', searchURL);
-    },
-    onExampleChange(event: any) {
-      this.currentExampleName = event.target.value;
-    },
-    translationChange(event: any) {
-      try {
-        const input = JSON.parse(event.target.value);
-        (this as any).i18n.translate = (
-          key: string,
-          defaultMessage: string | undefined
-        ) => {
-          const translated = get(input, key) as string;
-          return translated ?? defaultMessage;
-        };
-      } catch (error) {
-        console.log('invalid translation input');
-      }
     },
   },
 });
@@ -83,65 +138,38 @@ export default defineComponent({
 <template>
   <div class="container">
     <header>
-      <h1>Welcome to JSON Forms with Vue Vanilla</h1>
-      <p>More Forms. Less Code.</p>
+      <h1>JSON Forms - Suggestions Test</h1>
+      <p>Testing array suggestions functionality</p>
     </header>
 
     <aside class="example-selector">
       <div class="data">
-        <details>
-          <summary>data</summary>
-          <pre
-            >{{ JSON.stringify(data, null, 2) }}
-          </pre>
+        <details open>
+          <summary>Current Data</summary>
+          <pre>{{ JSON.stringify(data, null, 2) }}</pre>
         </details>
 
         <details>
-          <summary>schema</summary>
-          <pre
-            >{{ JSON.stringify(example.schema, null, 2) }}
-          </pre>
+          <summary>Suggestions</summary>
+          <pre>{{ JSON.stringify(suggestions, null, 2) }}</pre>
         </details>
 
         <details>
-          <summary>uischema</summary>
-          <pre
-            >{{ JSON.stringify(example.uischema, null, 2) }}
-          </pre>
+          <summary>Schema</summary>
+          <pre>{{ JSON.stringify(schema, null, 2) }}</pre>
         </details>
 
-        <h5>i18n translator</h5>
-        <textarea @change="translationChange"></textarea>
+        <details>
+          <summary>UI Schema</summary>
+          <pre>{{ JSON.stringify(uischema, null, 2) }}</pre>
+        </details>
       </div>
     </aside>
 
-    <div class="tools">
-      <h4>Select Example:</h4>
-      <select v-model="currentExampleName" @change="onExampleChange($event)">
-        <option
-          v-for="option in examples"
-          :key="option.name"
-          :value="option.name"
-          :label="option.label"
-        >
-          {{ option.label }}
-        </option>
-      </select>
-    </div>
-
     <main class="form">
-      <article>
-        <json-forms
-          :key="example.name"
-          :data="example.data"
-          :schema="example.schema"
-          :uischema="example.uischema"
-          :renderers="renderers"
-          :i18n="example.i18n"
-          :additional-errors="additionalErrors"
-          @change="onChange"
-        >
-        </json-forms>
+      <article class="flow-container">
+        <json-forms :data="data" :schema="schema" :uischema="uischema" :renderers="renderers" :suggestions="suggestions"
+          @change="onChange" />
       </article>
     </main>
   </div>
@@ -155,59 +183,52 @@ export default defineComponent({
   grid-row-gap: 1rem;
   grid-template-areas:
     'header header header header'
-    '. tools tools .'
     '. aside main .';
 }
-.container > header {
-  grid-area: header;
 
+.container>header {
+  grid-area: header;
   background-color: #00021e;
   padding: 2rem;
   color: white;
   text-align: center;
 }
-.container > aside {
+
+.container>aside {
   grid-area: aside;
 }
-.container > main {
-  grid-area: main;
-}
-.container > .tools {
-  grid-area: tools;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
+.container>main {
+  grid-area: main;
 }
 
 aside .data {
   background-color: white;
   padding: 2rem;
 }
-aside summary,
-aside h5 {
+
+aside summary {
   font-size: 0.83em;
   font-weight: bold;
   margin: 0 0 1em;
+  cursor: pointer;
 }
-aside summary {
-  cursor: default;
-}
+
 aside details pre {
   background: #eee;
   border: 0;
-  min-height: 300px;
+  padding: 1rem;
+  min-height: 200px;
   max-height: 500px;
   overflow: scroll;
+  font-size: 0.85em;
 }
 
 main article {
   background-color: white;
-  padding: 1rem;
+  padding: 2rem;
 }
 </style>
-
 
 <style>
 body {

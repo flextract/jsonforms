@@ -27,6 +27,8 @@ export const useVanillaControl = <
   );
 
   const isFocused = ref(false);
+  const suggestionState = ref<'pending' | 'accepted' | 'rejected'>('pending');
+
   const onChange = (event: Event) => {
     input.handleChange(input.control.value.path, adaptTarget(event.target));
   };
@@ -37,6 +39,25 @@ export const useVanillaControl = <
     return { id, description, errors, label, visible, required };
   });
 
+  const onAcceptSuggestion = () => {
+    const { path, suggestion } = input.control.value;
+    if (suggestion !== undefined) {
+      suggestionState.value = 'accepted';
+      input.handleChange(path, suggestion);
+    }
+  };
+
+  const onRejectSuggestion = () => {
+    suggestionState.value = 'rejected';
+  };
+
+  const showSuggestion = computed(() => {
+    return (
+      input.control.value.hasSuggestion &&
+      suggestionState.value === 'pending'
+    );
+  });
+
   return {
     ...input,
     styles: useStyles(input.control.value.uischema),
@@ -44,6 +65,12 @@ export const useVanillaControl = <
     appliedOptions,
     controlWrapper,
     onChange,
+    suggestion: computed(() => input.control.value.suggestion),
+    hasSuggestion: computed(() => input.control.value.hasSuggestion),
+    showSuggestion,
+    suggestionState,
+    onAcceptSuggestion,
+    onRejectSuggestion,
   };
 };
 

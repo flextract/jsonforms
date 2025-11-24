@@ -57,6 +57,11 @@ export default defineComponent({
       type: [String, Number, Boolean, Array, Object] as PropType<any>,
       default: undefined,
     },
+    suggestions: {
+      required: false,
+      type: [String, Number, Boolean, Array, Object] as PropType<any>,
+      default: undefined,
+    },
     schema: {
       required: false,
       type: [Object, Boolean] as PropType<JsonSchema>,
@@ -164,6 +169,7 @@ export default defineComponent({
         cells: this.cells,
         uischemas: this.uischemas,
         readonly: this.readonly,
+        suggestions: this.suggestions,
       },
     };
   },
@@ -210,6 +216,9 @@ export default defineComponent({
     },
     data(newData) {
       this.dataToUse = newData;
+    },
+    suggestions(newSuggestions) {
+      this.jsonforms.suggestions = newSuggestions;
     },
     renderers(newRenderers) {
       this.jsonforms.renderers = newRenderers;

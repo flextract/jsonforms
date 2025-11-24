@@ -1,14 +1,20 @@
 <template>
-  <div v-if="visible" :id="id" :class="styles.control.root">
-    <label
-      :for="id + '-input'"
-      :class="[styles.control.label, required ? styles.control.required : '']"
-    >
+  <div v-if="visible" :id="id" :class="styles.control.root" :data-has-suggestion="hasSuggestion"
+    :data-suggestion-state="suggestionState" :data-show-suggestion="showSuggestion">
+    <label :for="id + '-input'" :class="[styles.control.label, required ? styles.control.required : '']">
       {{ label }}
       <span v-if="showAsterisk" :class="styles.control.asterisk">*</span>
     </label>
     <div :class="styles.control.wrapper">
       <slot></slot>
+    </div>
+    <div v-if="showSuggestion" class="suggestion-container" data-suggestion-ui="true"
+      :data-suggestion-value="suggestion">
+      <span class="suggestion-value">{{ suggestion }}</span>
+      <div class="suggestion-actions">
+        <button @click="onAcceptSuggestion" class="suggestion-accept" data-suggestion-action="accept"></button>
+        <button @click="onRejectSuggestion" class="suggestion-reject" data-suggestion-action="reject"></button>
+      </div>
     </div>
     <div :class="errors ? styles.control.error : styles.control.description">
       {{ errors ? errors : showDescription ? description : null }}
@@ -67,6 +73,36 @@ export default defineComponent({
     styles: {
       required: true,
       type: Object as PropType<Styles>,
+    },
+    suggestion: {
+      required: false as const,
+      type: [String, Number, Boolean, Array, Object] as PropType<any>,
+      default: undefined,
+    },
+    hasSuggestion: {
+      required: false as const,
+      type: Boolean,
+      default: false,
+    },
+    showSuggestion: {
+      required: false as const,
+      type: Boolean,
+      default: false,
+    },
+    suggestionState: {
+      required: false as const,
+      type: String as PropType<'pending' | 'accepted' | 'rejected'>,
+      default: 'pending',
+    },
+    onAcceptSuggestion: {
+      required: false as const,
+      type: Function as PropType<() => void>,
+      default: undefined,
+    },
+    onRejectSuggestion: {
+      required: false as const,
+      type: Function as PropType<() => void>,
+      default: undefined,
     },
   },
   computed: {
