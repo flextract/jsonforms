@@ -27,6 +27,7 @@ import { isDescriptionHidden } from '@jsonforms/core';
 import { defineComponent, PropType } from 'vue';
 import { Styles } from '../styles';
 import { Options } from '../util';
+import { debugWrapper } from '../../../vue/src/suggestionsDebug';
 
 export default defineComponent({
   name: 'ControlWrapper',
@@ -116,6 +117,20 @@ export default defineComponent({
     },
     showAsterisk(): boolean {
       return this.required && !this.appliedOptions?.hideRequiredAsterisk;
+    },
+  },
+  watch: {
+    showSuggestion: {
+      handler() {
+        debugWrapper(
+          this.id,
+          this.hasSuggestion,
+          this.showSuggestion,
+          this.suggestionState,
+          this.suggestion
+        );
+      },
+      immediate: true,
     },
   },
 });

@@ -28,6 +28,7 @@ import {
 } from '@jsonforms/core';
 import { JsonFormsChangeEvent, MaybeReadonly } from '../types';
 import DispatchRenderer from './DispatchRenderer.vue';
+import { debugJsonForms } from '../suggestionsDebug';
 
 import type Ajv from 'ajv';
 import type { ErrorObject } from 'ajv';
@@ -150,6 +151,8 @@ export default defineComponent({
       );
       return core;
     };
+    debugJsonForms('Initializing JsonForms component', this.suggestions);
+
     return {
       schemaToUse,
       dataToUse,
@@ -218,6 +221,7 @@ export default defineComponent({
       this.dataToUse = newData;
     },
     suggestions(newSuggestions) {
+      debugJsonForms('Suggestions prop changed', newSuggestions);
       this.jsonforms.suggestions = newSuggestions;
     },
     renderers(newRenderers) {

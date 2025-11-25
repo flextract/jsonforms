@@ -50,18 +50,23 @@ import {
   watch,
 } from 'vue';
 import { JsonFormsSubStatesWithSuggestions } from './types';
+import { debugResolution, debugControl } from './suggestionsDebug';
 
 /**
  * Resolves a suggestion value from the suggestions object for a given path
  */
 const resolveSuggestion = (suggestions: any, path: string): any => {
   if (!suggestions || !path) {
+    debugResolution(path, suggestions, undefined);
     return undefined;
   }
 
   try {
-    return Resolve.data(suggestions, path);
+    const result = Resolve.data(suggestions, path);
+    debugResolution(path, suggestions, result);
+    return result;
   } catch (e) {
+    debugResolution(path, suggestions, undefined);
     return undefined;
   }
 };
@@ -207,13 +212,17 @@ export function useControl<
     const mappedState = stateMap({ jsonforms }, props);
     const path = (mappedState as any).path || '';
     const suggestion = resolveSuggestion(jsonforms.suggestions, path);
+    const hasSuggestion = suggestion !== undefined;
+
+    const uischemaType = (props.uischema as any)?.type || 'unknown';
+    debugControl(uischemaType, path, hasSuggestion, suggestion);
 
     return {
       ...props,
       ...mappedState,
       id: id.value,
       suggestion,
-      hasSuggestion: suggestion !== undefined,
+      hasSuggestion,
     };
   });
 

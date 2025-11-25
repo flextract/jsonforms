@@ -1,5 +1,5 @@
 import { useStyles } from '../styles';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import merge from 'lodash/merge';
 import cloneDeep from 'lodash/cloneDeep';
 import {
@@ -8,6 +8,7 @@ import {
   getFirstPrimitiveProp,
   Resolve,
 } from '@jsonforms/core';
+import { debugVanillaControl, debugAction } from '../../../vue/src/suggestionsDebug';
 
 /**
  * Adds styles, isFocused, appliedOptions and onChange
@@ -42,12 +43,15 @@ export const useVanillaControl = <
   const onAcceptSuggestion = () => {
     const { path, suggestion } = input.control.value;
     if (suggestion !== undefined) {
+      debugAction('accept', path, suggestion);
       suggestionState.value = 'accepted';
       input.handleChange(path, suggestion);
     }
   };
 
   const onRejectSuggestion = () => {
+    const { path, suggestion } = input.control.value;
+    debugAction('reject', path, suggestion);
     suggestionState.value = 'rejected';
   };
 
@@ -57,6 +61,25 @@ export const useVanillaControl = <
       suggestionState.value === 'pending'
     );
   });
+
+  // Debug log vanilla control setup and changes
+  watch(
+    () => ({
+      path: input.control.value.path,
+      hasSuggestion: input.control.value.hasSuggestion,
+      suggestion: input.control.value.suggestion,
+      suggestionState: suggestionState.value,
+    }),
+    (current) => {
+      debugVanillaControl(
+        current.path,
+        current.hasSuggestion,
+        current.suggestion,
+        current.suggestionState
+      );
+    },
+    { immediate: true }
+  );
 
   return {
     ...input,
