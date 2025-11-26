@@ -1,6 +1,6 @@
 {
   "name": "@flextract/json-forms-core",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "Core module of JSON Forms",
   "repository": "https://github.com/eclipsesource/jsonforms",
   "bugs": "https://github.com/eclipsesource/jsonforms/issues",
