@@ -29,6 +29,12 @@ export const useVanillaControl = <
 
   const isFocused = ref(false);
   const suggestionState = ref<'pending' | 'accepted' | 'rejected'>('pending');
+  const localSuggestionExpanded = ref(false);
+
+  // Global suggestionsExpanded overrides local state when true
+  const suggestionExpanded = computed(
+    () => input.control.value.suggestionsExpanded || localSuggestionExpanded.value
+  );
 
   const onChange = (event: Event) => {
     input.handleChange(input.control.value.path, adaptTarget(event.target));
@@ -45,6 +51,7 @@ export const useVanillaControl = <
     if (suggestion !== undefined) {
       debugAction('accept', path, suggestion);
       suggestionState.value = 'accepted';
+      localSuggestionExpanded.value = false;
       input.handleChange(path, suggestion);
     }
   };
@@ -53,6 +60,11 @@ export const useVanillaControl = <
     const { path, suggestion } = input.control.value;
     debugAction('reject', path, suggestion);
     suggestionState.value = 'rejected';
+    localSuggestionExpanded.value = false;
+  };
+
+  const onToggleSuggestionExpanded = () => {
+    localSuggestionExpanded.value = !localSuggestionExpanded.value;
   };
 
   const showSuggestion = computed(() => {
@@ -92,8 +104,10 @@ export const useVanillaControl = <
     hasSuggestion: computed(() => input.control.value.hasSuggestion),
     showSuggestion,
     suggestionState,
+    suggestionExpanded,
     onAcceptSuggestion,
     onRejectSuggestion,
+    onToggleSuggestionExpanded,
   };
 };
 

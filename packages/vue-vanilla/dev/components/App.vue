@@ -80,12 +80,16 @@ export default defineComponent({
           stockCompensationDetails: 'RSUs vesting over 4 years'
         }
       },
+      suggestionsExpanded: false,
     };
   },
   methods: {
     onChange(event: JsonFormsChangeEvent) {
       console.log('Data changed:', event);
       this.data = event.data;
+    },
+    toggleSuggestionsExpanded() {
+      this.suggestionsExpanded = !this.suggestionsExpanded;
     },
   },
 });
@@ -96,6 +100,9 @@ export default defineComponent({
     <header>
       <h1>JSON Forms - Suggestions Test</h1>
       <p>Testing array suggestions functionality</p>
+      <button @click="toggleSuggestionsExpanded" class="expand-toggle">
+        {{ suggestionsExpanded ? 'Collapse All Suggestions' : 'Expand All Suggestions' }}
+      </button>
     </header>
 
     <aside class="example-selector">
@@ -125,7 +132,7 @@ export default defineComponent({
     <main class="form">
       <article class="flow-container">
         <json-forms :data="data" :schema="schema" :uischema="uischema" :renderers="renderers" :suggestions="suggestions"
-          @change="onChange" />
+          :suggestions-expanded="suggestionsExpanded" @change="onChange" />
       </article>
     </main>
   </div>
@@ -148,6 +155,21 @@ export default defineComponent({
   padding: 2rem;
   color: white;
   text-align: center;
+}
+
+.expand-toggle {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #4a5568;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.expand-toggle:hover {
+  background-color: #2d3748;
 }
 
 .container>aside {

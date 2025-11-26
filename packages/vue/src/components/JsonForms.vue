@@ -63,6 +63,11 @@ export default defineComponent({
       type: [String, Number, Boolean, Array, Object] as PropType<any>,
       default: undefined,
     },
+    suggestionsExpanded: {
+      required: false,
+      type: Boolean,
+      default: false,
+    },
     schema: {
       required: false,
       type: [Object, Boolean] as PropType<JsonSchema>,
@@ -173,6 +178,7 @@ export default defineComponent({
         uischemas: this.uischemas,
         readonly: this.readonly,
         suggestions: this.suggestions,
+        suggestionsExpanded: this.suggestionsExpanded,
       },
     };
   },
@@ -223,6 +229,9 @@ export default defineComponent({
     suggestions(newSuggestions) {
       debugJsonForms('Suggestions prop changed', newSuggestions);
       this.jsonforms.suggestions = newSuggestions;
+    },
+    suggestionsExpanded(newSuggestionsExpanded) {
+      this.jsonforms.suggestionsExpanded = newSuggestionsExpanded;
     },
     renderers(newRenderers) {
       this.jsonforms.renderers = newRenderers;

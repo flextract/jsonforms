@@ -10,6 +10,8 @@
     :suggestion-state="suggestionState"
     :on-accept-suggestion="onAcceptSuggestion"
     :on-reject-suggestion="onRejectSuggestion"
+    :suggestion-expanded="suggestionExpanded"
+    :on-toggle-suggestion-expanded="onToggleSuggestionExpanded"
   >
     <input
       :id="control.id + '-input'"

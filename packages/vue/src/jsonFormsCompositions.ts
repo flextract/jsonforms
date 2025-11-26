@@ -223,6 +223,7 @@ export function useControl<
       id: id.value,
       suggestion,
       hasSuggestion,
+      suggestionsExpanded: jsonforms.suggestionsExpanded,
     };
   });
 

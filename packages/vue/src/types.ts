@@ -7,6 +7,7 @@ import {
 
 export interface JsonFormsSubStatesWithSuggestions extends JsonFormsSubStates {
   suggestions?: any;
+  suggestionsExpanded?: boolean;
 }
 
 export interface InjectJsonFormsState {
