@@ -1,1 +1,1 @@
-export * from '@jsonforms/vue';
+export * from '@flextract/json-forms-vue';

@@ -28,7 +28,7 @@ import {
   isControl,
   JsonFormsRendererRegistryEntry,
   rankWith,
-} from '@jsonforms/core';
+} from '@flextract/json-forms-core';
 import { defineComponent } from 'vue';
 import { rendererProps, useJsonFormsControl } from '../../src/';
 

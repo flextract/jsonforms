@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { isDescriptionHidden } from '@jsonforms/core';
+import { isDescriptionHidden } from '@flextract/json-forms-core';
 import { defineComponent, PropType } from 'vue';
 import { Styles } from '../styles';
 import { Options } from '../util';

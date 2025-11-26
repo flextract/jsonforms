@@ -1,4 +1,4 @@
-import { UISchemaElement } from '@jsonforms/core';
+import { UISchemaElement } from '@flextract/json-forms-core';
 import { inject } from 'vue';
 import merge from 'lodash/merge';
 import { defaultStyles } from './defaultStyles';

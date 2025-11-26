@@ -1,0 +1,108 @@
+{
+  "type": "VerticalLayout",
+  "elements": [
+    {
+      "type": "Group",
+      "label": "Basic Information",
+      "elements": [
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/firstName"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/lastName"
+            }
+          ]
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/preferredName"
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/gender"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/birthday",
+              "options": {
+                "format": "date"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Group",
+      "label": "Contact Information",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/email"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/phoneNumber"
+        }
+      ]
+    },
+    {
+      "type": "Group",
+      "label": "Address",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/address/properties/street"
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/address/properties/city"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/address/properties/state"
+            }
+          ]
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/address/properties/zipCode"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/address/properties/country"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Group",
+      "label": "Citizenship",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/countriesOfCitizenship",
+          "options": {
+            "format": "multi-select",
+            "childLabelProp": ""
+          }
+        }
+      ]
+    }
+  ]
+}

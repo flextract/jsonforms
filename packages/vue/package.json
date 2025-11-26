@@ -1,6 +1,6 @@
 {
   "name": "@flextract/json-forms-vue",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "Vue 3 module of JSON Forms",
   "repository": "https://github.com/eclipsesource/jsonforms",
   "bugs": "https://github.com/eclipsesource/jsonforms/issues",
@@ -51,7 +51,7 @@
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-typescript": "^7.9.0",
-    "@jsonforms/core": "workspace:*",
+    "@flextract/json-forms-core": "workspace:*",
     "@rollup/plugin-alias": "^3.1.8",
     "@types/jest": "^27.4.1",
     "@types/node": "^22.13.8",
@@ -86,7 +86,7 @@
     "vue": "^3.4.21"
   },
   "peerDependencies": {
-    "@jsonforms/core": "3.6.0",
+    "@flextract/json-forms-core": "3.6.0",
     "vue": "^3.2.26"
   }
 }

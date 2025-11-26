@@ -3,6 +3,8 @@ import { defineComponent } from 'vue';
 import { JsonForms, JsonFormsChangeEvent } from '../../config/jsonforms';
 import { vanillaRenderers, mergeStyles, defaultStyles } from '../../src';
 import '../../vanilla.css';
+import schema from './schema.json';
+import uischema from './ui.schema.json';
 
 // mergeStyles combines all classes from both styles definitions into one
 const myStyles = mergeStyles(defaultStyles, {
@@ -22,107 +24,61 @@ export default defineComponent({
   data() {
     return {
       renderers: Object.freeze(vanillaRenderers),
-      schema: {
-        type: 'object',
-        properties: {
-          name: {
-            type: 'string',
-            description: 'Full name',
-          },
-          age: {
-            type: 'integer',
-            description: 'Age',
-          },
-          email: {
-            type: 'string',
-            format: 'email',
-            description: 'Email address',
-          },
-          subscribed: {
-            type: 'boolean',
-            description: 'Newsletter subscription',
-          },
-          country: {
-            type: 'string',
-            enum: ['US', 'UK', 'CA', 'AU'],
-            description: 'Country',
-          },
-          users: {
-            type: 'array',
-            description: 'Team members',
-            items: {
-              type: 'object',
-              properties: {
-                name: {
-                  type: 'string',
-                  description: 'Member name',
-                },
-                email: {
-                  type: 'string',
-                  format: 'email',
-                  description: 'Member email',
-                },
-                role: {
-                  type: 'string',
-                  enum: ['developer', 'designer', 'manager'],
-                  description: 'Member role',
-                },
-              },
-            },
-          },
-        },
-      },
-      uischema: {
-        type: 'VerticalLayout',
-        elements: [
-          {
-            type: 'Control',
-            scope: '#/properties/name',
-          },
-          {
-            type: 'Control',
-            scope: '#/properties/age',
-          },
-          {
-            type: 'Control',
-            scope: '#/properties/email',
-          },
-          {
-            type: 'Control',
-            scope: '#/properties/subscribed',
-          },
-          {
-            type: 'Control',
-            scope: '#/properties/country',
-          },
-          {
-            type: 'Control',
-            scope: '#/properties/users',
-          },
-        ],
-      },
+      schema,
+      uischema,
       data: {
-        name: 'Alice Johnson',
-        age: 25,
-        email: 'alice@example.com',
-        subscribed: false,
-        country: 'US',
-        users: [
-          { name: 'Bob Smith', email: 'bob@example.com', role: 'developer' },
-          { name: 'Carol White', email: 'carol@example.com', role: 'designer' },
-        ],
+        firstName: '',
+        lastName: '',
+        birthday: '',
+        email: '',
+        phoneNumber: '',
+        address: {
+          street: '',
+          city: '',
+          state: '',
+          zipCode: '',
+          country: 'United States'
+        },
+        primaryCountryOfCitizenship: 'United States',
+        hasMultipleCitizenship: 'No',
+        employment: {
+          employmentStatus: ''
+        }
       },
       suggestions: {
-        name: 'Jane Doe',
-        age: 30,
-        email: 'jane.doe@company.com',
-        subscribed: true,
-        country: 'UK',
-        users: [
-          { name: 'John Doe', email: 'john@company.com', role: 'manager' },
-          { name: 'Sarah Williams', email: 'sarah@company.com', role: 'developer' },
-          { name: 'Mike Chen', email: 'mike@company.com', role: 'designer' },
-        ],
+        firstName: 'Jane',
+        lastName: 'Doe',
+        birthday: '1990-05-15',
+        email: 'jane.doe@example.com',
+        phoneNumber: '(555) 123-4567',
+        address: {
+          street: '123 Main Street',
+          city: 'San Francisco',
+          state: 'California',
+          zipCode: '94102',
+          country: 'United States'
+        },
+        primaryCountryOfCitizenship: 'United States',
+        hasMultipleCitizenship: 'No',
+        employment: {
+          employmentStatus: 'Employed',
+          companyName: 'Tech Corp',
+          jobTitle: 'Software Engineer',
+          industry: 'Technology',
+          baseSalary: 120000,
+          companyAddress: {
+            street: '456 Tech Blvd',
+            city: 'San Francisco',
+            state: 'California',
+            zipCode: '94103',
+            country: 'United States'
+          },
+          hasCommission: 'No',
+          hasBonus: 'Yes',
+          bonusDetails: 'Annual performance bonus',
+          hasStockCompensation: 'Yes',
+          stockCompensationDetails: 'RSUs vesting over 4 years'
+        }
       },
     };
   },

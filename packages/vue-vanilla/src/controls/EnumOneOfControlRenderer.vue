@@ -39,7 +39,7 @@ import {
   JsonFormsRendererRegistryEntry,
   rankWith,
   isOneOfEnumControl,
-} from '@jsonforms/core';
+} from '@flextract/json-forms-core';
 import { defineComponent } from 'vue';
 import {
   rendererProps,

@@ -3,7 +3,7 @@ import {
   Dispatch,
   JsonFormsCore,
   JsonFormsSubStates,
-} from '@jsonforms/core';
+} from '@flextract/json-forms-core';
 
 export interface JsonFormsSubStatesWithSuggestions extends JsonFormsSubStates {
   suggestions?: any;

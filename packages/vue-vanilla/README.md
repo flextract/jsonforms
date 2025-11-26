@@ -17,7 +17,7 @@ See our [JSON Forms Vue seed repository](https://github.com/eclipsesource/jsonfo
 Install JSON Forms Core, Vue and Vue Vanilla Renderers
 
 ```bash
-npm i --save @jsonforms/core @jsonforms/vue @jsonforms/vue-vanilla
+npm i --save @flextract/json-forms-core @flextract/json-forms-vue @flextract/json-forms-vue-vanilla
 ```
 
 Also add the packages to the transpile dependencies in the `vue.config.js` file:
@@ -25,9 +25,9 @@ Also add the packages to the transpile dependencies in the `vue.config.js` file:
 ```js
 module.exports = {
   transpileDependencies: [
-    '@jsonforms/core',
-    '@jsonforms/vue',
-    '@jsonforms/vue-vanilla',
+    '@flextract/json-forms-core',
+    '@flextract/json-forms-vue',
+    '@flextract/json-forms-vue-vanilla',
   ],
 };
 ```
@@ -36,8 +36,8 @@ Use the `json-forms` component for each form you want to render and hand over th
 
 ```vue
 <script>
-import { JsonForms } from '@jsonforms/vue';
-import { vanillaRenderers } from '@jsonforms/vue-vanilla';
+import { JsonForms } from '@flextract/json-forms-vue';
+import { vanillaRenderers } from '@flextract/json-forms-vue-vanilla';
 import { defineComponent } from 'vue';
 
 const renderers = [
@@ -93,9 +93,9 @@ export default defineComponent({
 ```
 
 By default the Vanilla Renderers don't apply any CSS at all.
-For a quick start you can use `@jsonforms/vue-vanilla/vanilla.css`.
+For a quick start you can use `@flextract/json-forms-vue-vanilla/vanilla.css`.
 
-For more information on how JSON Forms can be configured, please see the [README of `@jsonforms/vue`](https://github.com/eclipsesource/jsonforms/blob/master/packages/vue/README.md).
+For more information on how JSON Forms can be configured, please see the [README of `@flextract/json-forms-vue`](https://github.com/eclipsesource/jsonforms/blob/master/packages/vue/README.md).
 
 ### Styling
 
@@ -111,12 +111,12 @@ If you want to fall back to `defaultStyles` or combine them with your own classe
 
 ```vue
 <script>
-import { JsonForms } from '@jsonforms/vue';
+import { JsonForms } from '@flextract/json-forms-vue';
 import {
   defaultStyles,
   mergeStyles,
   vanillaRenderers,
-} from '@jsonforms/vue-vanilla';
+} from '@flextract/json-forms-vue-vanilla';
 import { defineComponent } from 'vue';
 
 // mergeStyles combines all classes from both styles definitions

@@ -2,7 +2,7 @@
 import { defineComponent } from 'vue';
 import { JsonForms } from '../../../config/jsonforms';
 import { vanillaRenderers } from '../../../src';
-import { JsonFormsChangeEvent } from '@jsonforms/vue';
+import { JsonFormsChangeEvent } from '@flextract/json-forms-vue';
 
 export default defineComponent({
   name: 'TestComponent',
@@ -26,12 +26,6 @@ export default defineComponent({
 </script>
 
 <template>
-  <json-forms
-    :data="data"
-    :schema="schema"
-    :uischema="uischema"
-    :renderers="renderers"
-    :config="config"
-    @change="onChange"
-  />
+  <json-forms :data="data" :schema="schema" :uischema="uischema" :renderers="renderers" :config="config"
+    @change="onChange" />
 </template>

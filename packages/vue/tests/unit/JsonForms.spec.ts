@@ -1,4 +1,4 @@
-import { JsonFormsUISchemaRegistryEntry, Generate } from '@jsonforms/core';
+import { JsonFormsUISchemaRegistryEntry, Generate } from '@flextract/json-forms-core';
 import { shallowMount } from '@vue/test-utils';
 import { JsonForms } from '../../src';
 import { bindings } from '../testHelper';

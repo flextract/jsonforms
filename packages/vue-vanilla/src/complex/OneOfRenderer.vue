@@ -1,47 +1,21 @@
 <template>
   <div v-if="control.visible" :class="styles.oneOf.root">
-    <combinator-properties
-      :schema="control.schema"
-      combinator-keyword="oneOf"
-      :path="path"
-      :root-schema="control.rootSchema"
-    />
+    <combinator-properties :schema="control.schema" combinator-keyword="oneOf" :path="path"
+      :root-schema="control.rootSchema" />
 
-    <control-wrapper
-      v-bind="controlWrapper"
-      :styles="styles"
-      :is-focused="isFocused"
-      :applied-options="appliedOptions"
-    >
-      <select
-        :id="control.id + '-input'"
-        :class="styles.control.select"
-        :value="selectIndex"
-        :readonly="!control.enabled"
-        :autofocus="appliedOptions.focus"
-        @change="handleSelectChange"
-        @focus="isFocused = true"
-        @blur="isFocused = false"
-      >
-        <option
-          v-for="optionElement in indexedOneOfRenderInfos"
-          :key="optionElement.index"
-          :value="optionElement.index"
-          :label="optionElement.label"
-          :class="styles.control.option"
-        ></option>
+    <control-wrapper v-bind="controlWrapper" :styles="styles" :is-focused="isFocused" :applied-options="appliedOptions">
+      <select :id="control.id + '-input'" :class="styles.control.select" :value="selectIndex"
+        :readonly="!control.enabled" :autofocus="appliedOptions.focus" @change="handleSelectChange"
+        @focus="isFocused = true" @blur="isFocused = false">
+        <option v-for="optionElement in indexedOneOfRenderInfos" :key="optionElement.index" :value="optionElement.index"
+          :label="optionElement.label" :class="styles.control.option"></option>
       </select>
     </control-wrapper>
 
-    <dispatch-renderer
-      v-if="selectedIndex !== undefined && selectedIndex !== null"
+    <dispatch-renderer v-if="selectedIndex !== undefined && selectedIndex !== null"
       :schema="indexedOneOfRenderInfos[selectedIndex].schema"
-      :uischema="indexedOneOfRenderInfos[selectedIndex].uischema"
-      :path="control.path"
-      :renderers="control.renderers"
-      :cells="control.cells"
-      :enabled="control.enabled"
-    />
+      :uischema="indexedOneOfRenderInfos[selectedIndex].uischema" :path="control.path" :renderers="control.renderers"
+      :cells="control.cells" :enabled="control.enabled" />
 
     <dialog ref="dialog" :class="styles.dialog.root">
       <h1 :class="styles.dialog.title">
@@ -56,11 +30,7 @@
         <button :onclick="onCancel" :class="styles.dialog.buttonSecondary">
           {{ translations.clearDialogDecline }}
         </button>
-        <button
-          ref="confirm"
-          :onclick="onConfirm"
-          :class="styles.dialog.buttonPrimary"
-        >
+        <button ref="confirm" :onclick="onConfirm" :class="styles.dialog.buttonPrimary">
           {{ translations.clearDialogAccept }}
         </button>
       </div>
@@ -81,13 +51,13 @@ import {
   JsonFormsRendererRegistryEntry,
   JsonFormsSubStates,
   rankWith,
-} from '@jsonforms/core';
+} from '@flextract/json-forms-core';
 import {
   DispatchRenderer,
   rendererProps,
   RendererProps,
   useJsonFormsOneOfControl,
-} from '@jsonforms/vue';
+} from '@flextract/json-forms-vue';
 import isEmpty from 'lodash/isEmpty';
 import { defineComponent, inject, nextTick, ref } from 'vue';
 import { useVanillaControl } from '../util';
@@ -191,9 +161,9 @@ const controlRenderer = defineComponent({
         this.control.path,
         this.newSelectedIndex !== undefined && this.newSelectedIndex !== null
           ? createDefaultValue(
-              this.indexedOneOfRenderInfos[this.newSelectedIndex].schema,
-              this.control.rootSchema
-            )
+            this.indexedOneOfRenderInfos[this.newSelectedIndex].schema,
+            this.control.rootSchema
+          )
           : {}
       );
       this.selectIndex = this.newSelectedIndex;

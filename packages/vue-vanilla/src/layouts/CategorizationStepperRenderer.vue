@@ -1,61 +1,37 @@
 <template>
   <div :class="styles.categorization.root">
     <div :class="styles.categorization.stepper">
-      <template
-        v-for="(category, index) in visibleCategories"
-        :key="`tab-${index}`"
-      >
+      <template v-for="(category, index) in visibleCategories" :key="`tab-${index}`">
         <div v-if="category.value.visible" @click="selected = index">
-          <button
-            :class="[selected === index ? styles.categorization.selected : '']"
-            :disabled="!category.value.enabled"
-          >
+          <button :class="[selected === index ? styles.categorization.selected : '']"
+            :disabled="!category.value.enabled">
             <span :class="styles.categorization.stepperBadge">{{
               index + 1
-            }}</span>
+              }}</span>
 
             <label>{{ category.value.label }}</label>
           </button>
         </div>
 
-        <hr
-          v-if="index !== visibleCategories.length - 1"
-          :class="styles.categorization.stepperLine"
-        />
+        <hr v-if="index !== visibleCategories.length - 1" :class="styles.categorization.stepperLine" />
       </template>
     </div>
 
     <div :class="styles.categorization.panel">
-      <DispatchRenderer
-        v-if="visibleCategories[selected]"
-        :schema="layout.schema"
-        :uischema="visibleCategories[selected].value.uischema"
-        :path="layout.path"
-        :enabled="layout.enabled"
-        :renderers="layout.renderers"
-        :cells="layout.cells"
-      />
+      <DispatchRenderer v-if="visibleCategories[selected]" :schema="layout.schema"
+        :uischema="visibleCategories[selected].value.uischema" :path="layout.path" :enabled="layout.enabled"
+        :renderers="layout.renderers" :cells="layout.cells" />
     </div>
 
-    <footer
-      v-if="appliedOptions?.showNavButtons"
-      :class="styles.categorization.stepperFooter"
-    >
-      <div
-        v-if="selected > 0"
-        :class="styles.categorization.stepperButtonBack"
-        @click="selected = selected - 1"
-      >
+    <footer v-if="appliedOptions?.showNavButtons" :class="styles.categorization.stepperFooter">
+      <div v-if="selected > 0" :class="styles.categorization.stepperButtonBack" @click="selected = selected - 1">
         <button :disabled="!visibleCategories[selected - 1].value.enabled">
           {{ 'back' }}
         </button>
       </div>
 
-      <div
-        v-if="selected + 1 < visibleCategories.length"
-        :class="styles.categorization.stepperButtonNext"
-        @click="selected = selected + 1"
-      >
+      <div v-if="selected + 1 < visibleCategories.length" :class="styles.categorization.stepperButtonNext"
+        @click="selected = selected + 1">
         <button :disabled="!visibleCategories[selected + 1].value.enabled">
           {{ 'next' }}
         </button>
@@ -66,20 +42,20 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import type { JsonFormsRendererRegistryEntry, Layout } from '@jsonforms/core';
+import type { JsonFormsRendererRegistryEntry, Layout } from '@flextract/json-forms-core';
 import {
   and,
   categorizationHasCategory,
   isCategorization,
   optionIs,
   rankWith,
-} from '@jsonforms/core';
+} from '@flextract/json-forms-core';
 import {
   DispatchRenderer,
   rendererProps,
   useJsonFormsCategorization,
   type RendererProps,
-} from '@jsonforms/vue';
+} from '@flextract/json-forms-vue';
 import { useVanillaLayout } from '../util';
 
 const layoutRenderer = defineComponent({

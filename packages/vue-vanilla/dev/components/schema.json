@@ -1,0 +1,462 @@
+{
+  "type": "object",
+  "allOf": [
+    {
+      "if": {
+        "required": ["employment"],
+        "properties": {
+          "employment": {
+            "required": ["employmentStatus"],
+            "properties": {
+              "employmentStatus": {
+                "enum": ["Employed", "Self-Employed"]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "employment": {
+            "required": [
+              "employmentStatus",
+              "companyName",
+              "jobTitle",
+              "industry",
+              "baseSalary",
+              "companyAddress",
+              "hasCommission",
+              "hasBonus",
+              "hasStockCompensation"
+            ],
+            "properties": {
+              "companyAddress": {
+                "required": ["street", "city", "state", "zipCode", "country"],
+                "errorMessage": {
+                  "required": {
+                    "city": "Company city is required",
+                    "state": "Company state is required",
+                    "street": "Company street address is required",
+                    "country": "Company country is required",
+                    "zipCode": "Company ZIP code is required"
+                  }
+                }
+              }
+            },
+            "errorMessage": {
+              "required": {
+                "hasBonus": "Please specify if you receive bonuses",
+                "industry": "Industry is required",
+                "jobTitle": "Job title is required",
+                "baseSalary": "Base salary is required",
+                "companyName": "Company name is required",
+                "hasCommission": "Please specify if you receive commission",
+                "companyAddress": "Company address is required",
+                "employmentStatus": "Employment status is required",
+                "hasStockCompensation": "Please specify if you receive stock compensation"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": ["employment"],
+        "properties": {
+          "employment": {
+            "required": ["employmentStatus"],
+            "properties": {
+              "employmentStatus": {
+                "enum": ["Unemployed", "Retired", "Student", "Other"]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "employment": {
+            "required": ["employmentStatus"],
+            "errorMessage": {
+              "required": {
+                "employmentStatus": "Employment status is required"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": ["employment"],
+        "properties": {
+          "employment": {
+            "required": ["hasCommission"],
+            "properties": {
+              "hasCommission": {
+                "const": "Yes"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "employment": {
+            "required": ["commissionDetails"],
+            "errorMessage": {
+              "required": {
+                "commissionDetails": "Please provide details about your commission"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": ["employment"],
+        "properties": {
+          "employment": {
+            "required": ["hasBonus"],
+            "properties": {
+              "hasBonus": {
+                "const": "Yes"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "employment": {
+            "required": ["bonusDetails"],
+            "errorMessage": {
+              "required": {
+                "bonusDetails": "Please provide details about your bonuses"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": ["employment"],
+        "properties": {
+          "employment": {
+            "required": ["hasStockCompensation"],
+            "properties": {
+              "hasStockCompensation": {
+                "const": "Yes"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "employment": {
+            "required": ["stockCompensationDetails"],
+            "errorMessage": {
+              "required": {
+                "stockCompensationDetails": "Please provide details about your stock compensation"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": ["hasMultipleCitizenship"],
+        "properties": {
+          "hasMultipleCitizenship": {
+            "const": "Yes"
+          }
+        }
+      },
+      "then": {
+        "required": ["additionalCitizenships"],
+        "errorMessage": {
+          "required": {
+            "additionalCitizenships": "Please specify your additional countries of citizenship"
+          }
+        }
+      }
+    }
+  ],
+  "title": "Personal Information V3",
+  "required": [
+    "firstName",
+    "lastName",
+    "birthday",
+    "email",
+    "phoneNumber",
+    "address",
+    "primaryCountryOfCitizenship",
+    "hasMultipleCitizenship",
+    "employment"
+  ],
+  "properties": {
+    "email": {
+      "type": "string",
+      "title": "Email Address",
+      "format": "email",
+      "maxLength": 100
+    },
+    "gender": {
+      "enum": ["Male", "Female", "Other", "Prefer not to say"],
+      "type": "string",
+      "title": "Gender"
+    },
+    "address": {
+      "type": "object",
+      "title": "Address",
+      "required": ["street", "city", "state", "zipCode", "country"],
+      "properties": {
+        "city": {
+          "type": "string",
+          "title": "City"
+        },
+        "state": {
+          "type": "string",
+          "title": "State/Province"
+        },
+        "street": {
+          "type": "string",
+          "title": "Street Address"
+        },
+        "country": {
+          "enum": [
+            "United States",
+            "Canada",
+            "United Kingdom",
+            "Australia",
+            "Other"
+          ],
+          "type": "string",
+          "title": "Country",
+          "default": "United States"
+        },
+        "zipCode": {
+          "type": "string",
+          "title": "ZIP Code"
+        }
+      },
+      "errorMessage": {
+        "required": {
+          "city": "City is required",
+          "state": "State is required",
+          "street": "Street Address is required",
+          "country": "Country is required",
+          "zipCode": "ZIP Code is required"
+        }
+      }
+    },
+    "birthday": {
+      "type": "string",
+      "title": "Date of Birth",
+      "format": "date"
+    },
+    "lastName": {
+      "type": "string",
+      "title": "Last Name"
+    },
+    "firstName": {
+      "type": "string",
+      "title": "First Name"
+    },
+    "employment": {
+      "type": "object",
+      "title": "Employment Information",
+      "properties": {
+        "hasBonus": {
+          "enum": ["Yes", "No"],
+          "type": "string",
+          "title": "Do you receive bonuses?"
+        },
+        "industry": {
+          "type": "string",
+          "title": "Industry",
+          "maxLength": 100
+        },
+        "jobTitle": {
+          "type": "string",
+          "title": "Job Title/Position",
+          "maxLength": 100,
+          "minLength": 1
+        },
+        "startDate": {
+          "type": "string",
+          "title": "Start Date",
+          "maxLength": 50
+        },
+        "baseSalary": {
+          "type": "number",
+          "title": "Base Salary ($)",
+          "maximum": 10000000,
+          "minimum": 0
+        },
+        "companyName": {
+          "type": "string",
+          "title": "Company Name",
+          "maxLength": 100,
+          "minLength": 1
+        },
+        "bonusDetails": {
+          "type": "string",
+          "title": "Bonus Details",
+          "maxLength": 500
+        },
+        "hasCommission": {
+          "enum": ["Yes", "No"],
+          "type": "string",
+          "title": "Do you receive commission?"
+        },
+        "companyAddress": {
+          "type": "object",
+          "title": "Company Address",
+          "properties": {
+            "city": {
+              "type": "string",
+              "title": "City"
+            },
+            "state": {
+              "type": "string",
+              "title": "State/Province"
+            },
+            "street": {
+              "type": "string",
+              "title": "Street Address"
+            },
+            "country": {
+              "enum": [
+                "United States",
+                "Canada",
+                "United Kingdom",
+                "Australia",
+                "Other"
+              ],
+              "type": "string",
+              "title": "Country",
+              "default": "United States"
+            },
+            "zipCode": {
+              "type": "string",
+              "title": "ZIP Code"
+            }
+          }
+        },
+        "employmentStatus": {
+          "enum": [
+            "Employed",
+            "Self-Employed",
+            "Unemployed",
+            "Retired",
+            "Student",
+            "Other"
+          ],
+          "type": "string",
+          "title": "Employment Status"
+        },
+        "commissionDetails": {
+          "type": "string",
+          "title": "Commission Details",
+          "maxLength": 500
+        },
+        "hasStockCompensation": {
+          "enum": ["Yes", "No"],
+          "type": "string",
+          "title": "Do you receive stock compensation?"
+        },
+        "stockCompensationDetails": {
+          "type": "string",
+          "title": "Stock Compensation Details",
+          "maxLength": 500
+        }
+      },
+      "dependentRequired": {
+        "industry": ["companyAddress"],
+        "jobTitle": ["companyAddress"],
+        "startDate": ["companyAddress"],
+        "baseSalary": ["companyAddress"],
+        "companyName": ["companyAddress"]
+      }
+    },
+    "phoneNumber": {
+      "type": "string",
+      "title": "Phone Number"
+    },
+    "preferredName": {
+      "type": "string",
+      "title": "Preferred Name",
+      "maxLength": 50
+    },
+    "additionalCitizenships": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "United States",
+          "Canada",
+          "United Kingdom",
+          "Australia",
+          "Mexico",
+          "Germany",
+          "France",
+          "Italy",
+          "Spain",
+          "Japan",
+          "China",
+          "India",
+          "Brazil",
+          "Other"
+        ],
+        "type": "string"
+      },
+      "title": "Additional Countries of Citizenship",
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "hasMultipleCitizenship": {
+      "enum": ["Yes", "No"],
+      "type": "string",
+      "title": "Do you have multiple citizenships?"
+    },
+    "primaryCountryOfCitizenship": {
+      "enum": [
+        "United States",
+        "Canada",
+        "United Kingdom",
+        "Australia",
+        "Mexico",
+        "Germany",
+        "France",
+        "Italy",
+        "Spain",
+        "Japan",
+        "China",
+        "India",
+        "Brazil",
+        "Other"
+      ],
+      "type": "string",
+      "title": "Primary Country of Citizenship",
+      "default": "United States"
+    }
+  },
+  "errorMessage": {
+    "required": {
+      "email": "Email address is required",
+      "address": "Address is required",
+      "birthday": "Date of birth is required",
+      "lastName": "Last Name is required",
+      "firstName": "First Name is required",
+      "employment": "Employment information is required",
+      "phoneNumber": "Phone number is required",
+      "hasMultipleCitizenship": "Please specify if you have multiple citizenships",
+      "primaryCountryOfCitizenship": "Primary country of citizenship is required"
+    }
+  }
+}

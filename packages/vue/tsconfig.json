@@ -4,7 +4,7 @@
     "module": "ES2020",
     "skipLibCheck": true,
     "strict": true,
-    "declaration": true,
+    "declaration": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "importHelpers": true,

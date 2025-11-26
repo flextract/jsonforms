@@ -1,18 +1,14 @@
 <template>
   <div v-if="isLayoutWithElements">
-    <dispatch-renderer
-      :schema="otherProps"
-      :path="path"
-      :uischema="foundUISchema"
-    />
+    <dispatch-renderer :schema="otherProps" :path="path" :uischema="foundUISchema" />
   </div>
 </template>
 
 <script lang="ts">
-import { Generate, JsonSchema, Layout, UISchemaElement } from '@jsonforms/core';
+import { Generate, JsonSchema, Layout, UISchemaElement } from '@flextract/json-forms-core';
 import omit from 'lodash/omit';
 import { PropType, defineComponent } from 'vue';
-import { DispatchRenderer } from '@jsonforms/vue';
+import { DispatchRenderer } from '@flextract/json-forms-vue';
 
 interface CombinatorProps {
   schema: JsonSchema;

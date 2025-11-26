@@ -90,16 +90,16 @@ export default defineComponent({
 
 ### Renderer Set
 
-The `@jsonforms/vue` package offers JSON Forms Core bindings based on the composition API.
+The `@flextract/json-forms-vue` package offers JSON Forms Core bindings based on the composition API.
 These bindings handle the props given to the `dispatch-renderer` and use the JSON Forms Core to determine specialized inputs for many use cases like validation and rule-based visibility.
 Using these bindings as a basis, it's straightforward to create renderer sets for Vue 3.
 
 #### Basic control renderer example
 
 ```ts
-import { ControlElement } from '@jsonforms/core';
+import { ControlElement } from '@flextract/json-forms-core';
 import { defineComponent } from 'vue';
-import { rendererProps, useJsonFormsControl } from '@jsonforms/vue';
+import { rendererProps, useJsonFormsControl } from '@flextract/json-forms-vue';
 
 const controlRenderer = defineComponent({
   name: 'control-renderer',
@@ -142,7 +142,7 @@ import {
   isControl,
   JsonFormsRendererRegistryEntry,
   rankWith,
-} from '@jsonforms/core';
+} from '@flextract/json-forms-core';
 export const entry: JsonFormsRendererRegistryEntry = {
   renderer: controlRenderer,
   tester: rankWith(1, isControl),
@@ -165,13 +165,13 @@ import {
   JsonFormsRendererRegistryEntry,
   Layout,
   rankWith,
-} from '@jsonforms/core';
+} from '@flextract/json-forms-core';
 import { defineComponent } from 'vue';
 import {
   DispatchRenderer,
   rendererProps,
   useJsonFormsLayout,
-} from '@jsonforms/vue';
+} from '@flextract/json-forms-vue';
 
 const layoutRenderer = defineComponent({
   name: 'layout-renderer',

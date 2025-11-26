@@ -25,7 +25,7 @@ import {
   JsonFormsI18nState,
   defaultMiddleware,
   Middleware,
-} from '@jsonforms/core';
+} from '@flextract/json-forms-core';
 import { JsonFormsChangeEvent, MaybeReadonly } from '../types';
 import DispatchRenderer from './DispatchRenderer.vue';
 import { debugJsonForms } from '../suggestionsDebug';

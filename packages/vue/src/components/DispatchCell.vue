@@ -15,7 +15,7 @@ import {
   rendererProps,
   useJsonFormsDispatchCell,
 } from '../jsonFormsCompositions';
-import { ControlElement } from '@jsonforms/core';
+import { ControlElement } from '@flextract/json-forms-core';
 
 export default defineComponent({
   name: 'DispatchCell',

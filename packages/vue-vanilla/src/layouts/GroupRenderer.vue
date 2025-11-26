@@ -28,7 +28,7 @@ import {
   and,
   isLayout,
   uiTypeIs,
-} from '@jsonforms/core';
+} from '@flextract/json-forms-core';
 import { defineComponent } from 'vue';
 import {
   DispatchRenderer,

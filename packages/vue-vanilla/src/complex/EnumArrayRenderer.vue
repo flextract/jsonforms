@@ -16,7 +16,7 @@ import {
   RendererProps,
   rendererProps,
   useJsonFormsMultiEnumControl,
-} from '@jsonforms/vue';
+} from '@flextract/json-forms-vue';
 import {
   ControlElement,
   JsonFormsRendererRegistryEntry,
@@ -27,7 +27,7 @@ import {
   hasType,
   schemaSubPathMatches,
   JsonSchema,
-} from '@jsonforms/core';
+} from '@flextract/json-forms-core';
 import { useVanillaArrayControl } from '../util';
 
 const controlRenderer = defineComponent({
